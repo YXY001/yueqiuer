@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.cty.ball.yueqiuer">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/logoblue"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".activity.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".activity.MineActivity"
+            android:label="@string/title_activity_mine"
+            android:parentActivityName=".activity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.EditInfoActivity"
+            android:label="@string/title_activity_edit_info"
+            android:parentActivityName=".activity.MineActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.SplashActivity"
+            android:label="约球儿"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.GuideActivity" android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+
+
+        <!-- 登录 -->
+        <activity
+            android:name=".activity.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <!-- 注册 -->
+        <activity
+            android:name=".activity.SignActivity"
+            android:label="@string/title_activity_sign"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <!-- 用户协议 -->
+        <activity
+            android:name=".activity.UserAgreementActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="@string/title_activity_sign_userAgreement" />
+
+        <!-- 用户报名 -->
+        <activity android:name=".activity.UserSignUpActivity"
+            android:label="@string/title_activity_user_sign_up">
+
+        </activity>
+
+        <!-- 发布活动 -->
+        <activity
+            android:name=".activity.ReleaseActivity"
+            android:label="@string/title_activity_release_activity">
+
+        </activity>
+
+        <!--活动详情-->
+        <activity
+            android:name=".activity.ActivityInfoActivity"
+            android:label="@string/title_activity_activity_info">
+
+        </activity>
+
+        <activity
+            android:name=".activity.MyReleaseActivity"
+            android:label="@string/title_activity_my_relese"
+            android:parentActivityName=".activity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+        <activity
+            android:name=".activity.MySignUpActivity"
+            android:label="@string/title_activity_my_sign_up"
+            android:parentActivityName=".activity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+        <activity
+            android:name=".activity.PersonListActivity"
+            android:label="@string/title_activity_person_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.ActivityListActivity"
+            android:label="@string/title_activity_activity_list"
+            android:parentActivityName=".activity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+    </application>
+
+</manifest>

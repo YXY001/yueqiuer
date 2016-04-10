@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sBalls">
+        <item name="basketball">篮球</item>
+        <item name="soccer">足球</item>
+        <item name="tableTennis">乒乓球</item>
+        <item name="tennis">网球</item>
+        <item name="badminton">羽毛球</item>
+        <item name="billiards">台球</item>
+        <item name="bowling">保龄球</item>
+        <item name="volleyball">排球</item>
+        <item name="more">更多</item>
+    </string-array>
+</resources>

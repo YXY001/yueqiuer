@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.MainActivity">
+    <item
+        android:id="@+id/action_release"
+        android:orderInCategory="100"
+        android:title="@string/release"
+        android:icon="@drawable/release"
+        
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_signup"
+        android:orderInCategory="100"
+        android:title="@string/signup"
+        android:icon="@drawable/signup"
+        app:showAsAction="always" />
+</menu>
