@@ -41,6 +41,13 @@ public class User extends BmobUser {
     }
 
     /**
+     * 无参构造
+     */
+    public User(){
+
+    }
+
+    /**
      * 构造方法
      * @param userSex
      * @param userHeadPortrait

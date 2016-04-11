@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="61dp"
-        android:src="@drawable/logoblue"
+        android:src="@drawable/logoblue108"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"/>
     <EditText

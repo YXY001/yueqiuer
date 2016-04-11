@@ -25,4 +25,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
     compile files('libs/BmobSDK_V3.4.5_1111.jar')
+    compile 'cn.bmob.android:bmob-sdk:3.4.5'
+
 }
