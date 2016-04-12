@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.cty.ball.yueqiuer">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -13,7 +13,13 @@
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activity.MineActivity"
             android:label="@string/title_activity_mine"
@@ -27,72 +33,52 @@
         <activity
             android:name=".activity.SplashActivity"
             android:label="约球儿"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
-        <activity android:name=".activity.GuideActivity" android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
-
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".activity.GuideActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <!-- 登录 -->
         <activity
             android:name=".activity.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <!-- 注册 -->
         <activity
             android:name=".activity.SignActivity"
             android:label="@string/title_activity_sign"
-            android:theme="@style/AppTheme.NoActionBar" >
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <!-- 用户协议 -->
         <activity
             android:name=".activity.UserAgreementActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:label="@string/title_activity_sign_userAgreement" />
+            android:label="@string/title_activity_sign_userAgreement"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <!-- 用户报名 -->
-        <activity android:name=".activity.UserSignUpActivity"
-            android:label="@string/title_activity_user_sign_up">
-
-        </activity>
+        <activity
+            android:name=".activity.UserSignUpActivity"
+            android:label="@string/title_activity_user_sign_up"></activity>
 
         <!-- 发布活动 -->
         <activity
             android:name=".activity.ReleaseActivity"
-            android:label="@string/title_activity_release_activity">
+            android:label="@string/title_activity_release_activity"></activity>
 
-        </activity>
-
-        <!--活动详情-->
+        <!-- 活动详情 -->
         <activity
             android:name=".activity.ActivityInfoActivity"
-            android:label="@string/title_activity_activity_info">
-
-        </activity>
-
+            android:label="@string/title_activity_activity_info"></activity>
         <activity
             android:name=".activity.MyReleaseActivity"
             android:label="@string/title_activity_my_relese"
             android:parentActivityName=".activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".activity.MySignUpActivity"
             android:label="@string/title_activity_my_sign_up"
             android:parentActivityName=".activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".activity.PersonListActivity"
             android:label="@string/title_activity_person_list"
@@ -101,9 +87,8 @@
             android:name=".activity.ActivityListActivity"
             android:label="@string/title_activity_activity_list"
             android:parentActivityName=".activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".activity.UpdatePasswordActivity"></activity>
     </application>
 
 </manifest>

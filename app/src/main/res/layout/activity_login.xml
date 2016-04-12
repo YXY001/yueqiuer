@@ -21,6 +21,7 @@
         android:id="@+id/ETextLogin_Telphone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="phone"
         android:hint="@string/activity_sign_please_input_telphone"
         android:layout_below="@id/IViewLogin_Logo"
         android:layout_marginTop="20dp"/>
@@ -29,6 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
+        android:inputType="textPassword"
         android:hint="@string/activity_sign_please_input_password"
         android:layout_below="@id/ETextLogin_Telphone"/>
     <Button

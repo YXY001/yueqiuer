@@ -11,21 +11,27 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import com.cty.ball.yueqiuer.R;
+import com.cty.ball.yueqiuer.utils.LoginOrNot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ActivityInfoActivity extends AppCompatActivity {
+import cn.bmob.v3.BmobUser;
+
+public class ActivityInfoActivity extends AppCompatActivity implements View.OnClickListener {
 
     //模拟数据
     private String [] comments = {"11111111111","11111111111","22222222","3333333","3333333"};
     private int [] images = {R.drawable.qq,R.drawable.qq,R.drawable.qq,R.drawable.qq,R.drawable.qq};
     private ListView listView = null;
     private List list = new ArrayList<HashMap<String,Object>>();
-    private Button BtnActivity_iSignUp;
+    private Button BtnActivity_iSignUp,BtnActivity_commitMyComment;
     private View LLayout_ActivityInfo_seeAll;
     private ArrayAdapter<String> adapter = null;
+
+    private BmobUser bmobUser;
+    private LoginOrNot loginOrNot;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +42,9 @@ public class ActivityInfoActivity extends AppCompatActivity {
 
         //初始化组件
         inintView();
+
+        //点击事件
+        click();
         final int length = comments.length;
         for(int i = 0;i<length;i++){
             HashMap<String,Object> map = new HashMap<String,Object>();
@@ -50,30 +59,29 @@ public class ActivityInfoActivity extends AppCompatActivity {
     }
 
 
-
+    /**
+     * 初始化界面
+     */
     private void inintView() {
         listView = (ListView) findViewById(R.id.ListActivityInfo);
         BtnActivity_iSignUp= (Button) findViewById(R.id.BtnActivity_iSignUp);
+        BtnActivity_commitMyComment = (Button) findViewById(R.id.BtnActivity_commitMyComment);
         LLayout_ActivityInfo_seeAll=findViewById(R.id.LLayout_ActivityInfo_seeAll);
-        LLayout_ActivityInfo_seeAll.setOnClickListener(LLayout_seeAll);
-        BtnActivity_iSignUp.setOnClickListener(btnSignUp);
+        //获取当前用户
+        bmobUser = BmobUser.getCurrentUser(this);
+        //声明判断是否登录类
+        loginOrNot = new LoginOrNot(bmobUser);
 
     }
 
-    View.OnClickListener btnSignUp =new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent=new Intent(ActivityInfoActivity.this,UserSignUpActivity.class);
-            startActivity(intent);
-        }
-    };
-    View.OnClickListener LLayout_seeAll =new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent=new Intent(ActivityInfoActivity.this,MainActivity.class);
-            startActivity(intent);
-        }
-    };
+    /**
+     * 点击事件
+     */
+    private void click(){
+        LLayout_ActivityInfo_seeAll.setOnClickListener(this);
+        BtnActivity_iSignUp.setOnClickListener(this);
+        BtnActivity_commitMyComment.setOnClickListener(this);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -87,4 +95,22 @@ public class ActivityInfoActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            //查看全部报名人数
+            case R.id.LLayout_ActivityInfo_seeAll:
+                Intent intent = new Intent(ActivityInfoActivity.this,MySignUpActivity.class);
+                startActivity(intent);
+                break;
+            //我要参加按钮
+            case R.id.BtnActivity_iSignUp:
+                loginOrNot.loginOrNot(ActivityInfoActivity.this,UserSignUpActivity.class);
+                break;
+            //提交评论,磁珠也要设置权限
+            case R.id.BtnActivity_commitMyComment:
+                break;
+        }
+
+    }
 }

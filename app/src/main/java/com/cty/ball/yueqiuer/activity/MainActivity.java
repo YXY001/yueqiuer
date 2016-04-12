@@ -11,14 +11,18 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cty.ball.yueqiuer.R;
+import com.cty.ball.yueqiuer.utils.LoginOrNot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import cn.bmob.v3.BmobUser;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -27,18 +31,29 @@ public class MainActivity extends AppCompatActivity {
     private List ListBalls=new ArrayList<HashMap<String,Object>>();
     int[] drawbleIds={R.drawable.basketball,R.drawable.soccer,R.drawable.tabletennis,R.drawable.tennis,R.drawable.badminton,R.drawable.billiards,R.drawable.bowling,R.drawable.volleyball,R.drawable.more};
     String [] sBalls=null;
+
+    private Toolbar toolbar;
+
+    private BmobUser bmobUser;
+
+    private LoginOrNot loginOrNot;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        //初始化界面
+        initView();
+
+        loginOrNot = new LoginOrNot(bmobUser);
+
+        //设置用户名
+        String userName = (String) BmobUser.getObjectByKey(MainActivity.this,"username");
+        toolbar.setTitle(userName);
+
         //用户头像(限制图像大小55*55dp)
-        ImageView touxiang = (ImageView) findViewById(R.id.imageView_changeIcon);
-
         toolbar.setNavigationIcon(R.drawable.touxiang);
-        //用户名称
 
-        toolbar.setTitle("用户名称");
         //右侧功能
         setSupportActionBar(toolbar);
 
@@ -108,6 +123,17 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * 初始化界面
+     * 苑雪元 2016/04/12
+     */
+    public void initView(){
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+         bmobUser= BmobUser.getCurrentUser(MainActivity.this);
+    }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -124,13 +150,9 @@ public class MainActivity extends AppCompatActivity {
 
         //inspection SimplifiableIfStatement
         if (id == R.id.action_release) {
-            Intent intent = new Intent();
-            intent.setClass(MainActivity.this,MyReleaseActivity.class);
-            startActivity(intent);
+            loginOrNot.loginOrNot(MainActivity.this,MyReleaseActivity.class);
         }if (id == R.id.action_signup) {
-            Intent intent = new Intent();
-            intent.setClass(MainActivity.this,MySignUpActivity.class );
-            startActivity(intent);
+            loginOrNot.loginOrNot(MainActivity.this,MySignUpActivity.class);
         }
 
 

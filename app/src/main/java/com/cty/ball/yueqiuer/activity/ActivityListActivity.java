@@ -16,11 +16,14 @@ import android.widget.TextView;
 
 
 import com.cty.ball.yueqiuer.R;
+import com.cty.ball.yueqiuer.utils.LoginOrNot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import cn.bmob.v3.BmobUser;
 
 /**
  * 活动列表界面，显示发布的特定种类的活动
@@ -34,6 +37,8 @@ public class ActivityListActivity extends AppCompatActivity {
     private String ball;
     private String[] names = {"石家庄", "保定", "暗淡", "横竖"};
 
+    private LoginOrNot loginOrNot;
+    private BmobUser bmobUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +47,19 @@ public class ActivityListActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //获取当前用户
+        bmobUser = BmobUser.getCurrentUser(this);
+        //声明判断是否登录类
+        loginOrNot = new LoginOrNot(bmobUser);
+
+
         //点击加号跳转到发布活动界面
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ActivityListActivity.this,ReleaseActivity.class);
-                startActivity(intent);
+                loginOrNot.loginOrNot(ActivityListActivity.this, ReleaseActivity.class);
             }
         });
 
@@ -100,8 +111,7 @@ public class ActivityListActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     //通过当前listview的位置来获取id
-                    Intent intent = new Intent(ActivityListActivity.this, UserSignUpActivity.class);
-                    startActivity(intent);
+                    loginOrNot.loginOrNot(ActivityListActivity.this, UserSignUpActivity.class);
                 }
             });
             //查看全部报名人的点击事件
