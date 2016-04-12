@@ -169,7 +169,7 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * 注册
      */
-    public void login(){
+    public void sign(){
         //获取当前的时间
         SimpleDateFormat format =new SimpleDateFormat("yyyyMMddHHmmss");
         String sendTime = format.format(new Date());
@@ -205,7 +205,7 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
     private void requestSmsCode(){
         S_telphone =telphone.getText().toString().trim();
         if(!TextUtils.isEmpty(S_telphone)&&checkPhoneNumber.checkPhoneNum(S_telphone)){
-            BmobSMS.requestSMSCode(this, S_telphone, "注册模板", new RequestSMSCodeListener() {
+            BmobSMS.requestSMSCode(this, S_telphone, "约球儿手机号验证", new RequestSMSCodeListener() {
 
                 @Override
                 public void done(Integer smsId,BmobException ex) {
@@ -237,7 +237,7 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
                     // TODO Auto-generated method stub
                     if(ex==null){//验证码验证通过
 //                        toast("验证码验证通过");
-                        login();
+                        sign();
                     }else{
                         toast("验证码不正确");
                     }
