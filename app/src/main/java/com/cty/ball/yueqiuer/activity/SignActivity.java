@@ -20,10 +20,13 @@ import java.util.Date;
 
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobSMS;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.QuerySMSStateListener;
 import cn.bmob.v3.listener.RequestSMSCodeListener;
+import cn.bmob.v3.listener.ResetPasswordByCodeListener;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.VerifySMSCodeListener;
 
 public class SignActivity extends AppCompatActivity implements View.OnClickListener {
@@ -32,7 +35,7 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
     private Button sign,btnVerificationCode;
     private CheckBox boxUserAgreement;
     private TextView textUserAgreement;
-    private String S_telphone,S_verificationCode,S_password,S_surePassword;
+    private String S_telphone,S_verificationCode,S_password,S_surePassword,S_sign;
     private CheckPhoneNumber checkPhoneNumber;
 
     private final static String  TAG = "1";
@@ -71,7 +74,7 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = this.getIntent();
         String tag = intent.getStringExtra("sign");
         if (tag.equals(TAG)){
-            sign.setText("找回密码");
+            sign.setText("重置密码");
         }else{
             sign.setText("注册");
         }
@@ -159,7 +162,12 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 //验证信息全部正确
                 if (!filloutYoN()&&userAgreementYoN() && checkPhoneNumber.checkPhoneNum(S_telphone)&&surePassword()){
-                    verificationCodeRoW();
+                    S_sign = sign.getText().toString().trim();
+                    if(S_sign.equals("注册")){
+                        verificationCodeRoW();
+                    }else if (S_sign.equals("重置密码")){
+                        updatePassword();
+                    }
                 }
                 break;
         }
@@ -187,6 +195,7 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
                 toast("注册成功");
                 Intent intent = new Intent(SignActivity.this,MainActivity.class);
                 startActivity(intent);
+                finish();
             }
             @Override
             public void onFailure(int i, String s) {
@@ -196,6 +205,35 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
     }
+
+    /**
+     * 修改密码 注意无需验证验证码的有效性
+     * 苑雪元 2016/04/12
+     */
+    public void updatePassword(){
+
+        //获取密码
+        S_password = password.getText().toString().trim();
+        //获取验证码
+        S_verificationCode = verificationCode.getText().toString().trim();
+
+        BmobUser.resetPasswordBySMSCode(this, S_verificationCode, S_password, new ResetPasswordByCodeListener() {
+
+            @Override
+            public void done(BmobException ex) {
+                // TODO Auto-generated method stub
+                if (ex == null) {
+                    toast("密码重置成功");
+                    Intent intent = new Intent(SignActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    toast("出错啦");
+                }
+            }
+        });
+    }
+
 
 
     /**
@@ -213,30 +251,35 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
                     if (ex == null) {//请求成功
                         toast("短信已发送，请注意查收");//短信编号
                     } else {
-                        if(ex.getErrorCode()==10010){
+                        if(ex.getErrorCode() == 10010) {
                             toast("您的手机号发送短信达到限制，请稍后在发送");
                         }
                     }
                 }
             });
-        }else{
+        } else {
             toast("手机号不正确，请确认后在填写");
         }
 
     }
+
+
+
+
     /**
      * 短信验证码
      * 苑雪元 2016/04/11
      */
-    private void verificationCodeRoW(){
+    private void verificationCodeRoW() {
         S_verificationCode = verificationCode.getText().toString().trim();
-        if(!TextUtils.isEmpty(S_verificationCode)){
+
+        if (!TextUtils.isEmpty(S_verificationCode)) {
             BmobSMS.verifySmsCode(SignActivity.this,S_telphone,S_verificationCode, new VerifySMSCodeListener() {
                 @Override
                 public void done(BmobException ex) {
                     // TODO Auto-generated method stub
-                    if(ex==null){//验证码验证通过
-//                        toast("验证码验证通过");
+                    if(ex==null){
+                        //验证码验证通过
                         sign();
                     }else{
                         toast("验证码不正确");
