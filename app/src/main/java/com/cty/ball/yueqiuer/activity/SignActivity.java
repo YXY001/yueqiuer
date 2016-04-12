@@ -15,6 +15,9 @@ import com.cty.ball.yueqiuer.R;
 import com.cty.ball.yueqiuer.entity.User;
 import com.cty.ball.yueqiuer.utils.CheckPhoneNumber;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobSMS;
 import cn.bmob.v3.exception.BmobException;
@@ -33,8 +36,11 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
     private CheckPhoneNumber checkPhoneNumber;
 
     private final static String  TAG = "1";
-    private static boolean smsTag = false;
-    private final String APPKEYID = "73ecc55290215bf4be474a812a4c4692";
+    //Bmob服务器的ID
+    private final static String APPKEYID = "73ecc55290215bf4be474a812a4c4692";
+
+    private  StringBuffer UserName =new StringBuffer("Yueqiuer");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,48 +152,59 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.BtnSign_sign:
                 if (filloutYoN()){
                     Toast.makeText(SignActivity.this, "请完善全部信息", Toast.LENGTH_SHORT).show();
-                }else if (!checkPhoneNumber.checkPhoneNum(S_telphone)){
-                    Toast.makeText(SignActivity.this,"请正确输入手机号",Toast.LENGTH_SHORT).show();
-                }else if (!verificationCodeRoW()){
-                    Toast.makeText(SignActivity.this,"请正确填写验证码",Toast.LENGTH_SHORT).show();
                 }else if (!userAgreementYoN()){
                     Toast.makeText(SignActivity.this,"请阅读用户协议",Toast.LENGTH_SHORT).show();
                 }else if (!surePassword()){
                     Toast.makeText(SignActivity.this,"两次输入的密码不相同",Toast.LENGTH_SHORT).show();
                 }
                 //验证信息全部正确
-                if (!filloutYoN()&& verificationCodeRoW() &&userAgreementYoN() && checkPhoneNumber.checkPhoneNum(S_telphone)&&surePassword()){
-                    //数据赋值
-                    //数据储存及后期逻辑
-                    User user = new User();
-                    user.setUsername("diyiwei");
-                    user.setPassword(S_password);
-                    user.setMobilePhoneNumber(S_telphone);
-//                    user.setMobilePhoneNumberVerified(verificationCodeRoW());
-                    user.signUp(this, new SaveListener() {
-                        @Override
-                        public void onSuccess() {
-                            toast("存入云服务成功");
-                            Intent intent = new Intent(SignActivity.this,MainActivity.class);
-                            startActivity(intent);
-                        }
-                        @Override
-                        public void onFailure(int i, String s) {
-                            toast("存入云服务失败");
-                        }
-                    });
+                if (!filloutYoN()&&userAgreementYoN() && checkPhoneNumber.checkPhoneNum(S_telphone)&&surePassword()){
+                    verificationCodeRoW();
                 }
                 break;
         }
     }
 
+
     /**
-     * 请求验证码
+     * 注册
+     */
+    public void login(){
+        //获取当前的时间
+        SimpleDateFormat format =new SimpleDateFormat("yyyyMMddHHmmss");
+        String sendTime = format.format(new Date());
+
+        //数据储存及后期逻辑
+        User user = new User();
+        String userName = UserName.append(sendTime).toString();
+        user.setUsername(userName);
+        user.setPassword(S_password);
+        user.setMobilePhoneNumber(S_telphone);
+        user.setMobilePhoneNumberVerified(true);
+        user.signUp(this, new SaveListener() {
+            @Override
+            public void onSuccess() {
+                toast("注册成功");
+                Intent intent = new Intent(SignActivity.this,MainActivity.class);
+                startActivity(intent);
+            }
+            @Override
+            public void onFailure(int i, String s) {
+                if(i==209){
+                    toast("手机号已经注册了");
+                }
+            }
+        });
+    }
+
+
+    /**
+     * 请求验证码,注意首先验证手机号是否可用
      * 苑雪元 2016/04/11
      */
     private void requestSmsCode(){
         S_telphone =telphone.getText().toString().trim();
-        if(!TextUtils.isEmpty(S_telphone)){
+        if(!TextUtils.isEmpty(S_telphone)&&checkPhoneNumber.checkPhoneNum(S_telphone)){
             BmobSMS.requestSMSCode(this, S_telphone, "注册模板", new RequestSMSCodeListener() {
 
                 @Override
@@ -203,7 +220,7 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
         }else{
-            toast("请输入手机号");
+            toast("手机号不正确，请确认后在填写");
         }
 
     }
@@ -211,25 +228,22 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
      * 短信验证码
      * 苑雪元 2016/04/11
      */
-    private boolean verificationCodeRoW(){
-        S_telphone =telphone.getText().toString().trim();
+    private void verificationCodeRoW(){
         S_verificationCode = verificationCode.getText().toString().trim();
-        toast(S_telphone+S_verificationCode);
+        if(!TextUtils.isEmpty(S_verificationCode)){
             BmobSMS.verifySmsCode(SignActivity.this,S_telphone,S_verificationCode, new VerifySMSCodeListener() {
                 @Override
                 public void done(BmobException ex) {
                     // TODO Auto-generated method stub
                     if(ex==null){//验证码验证通过
-                        toast("验证码验证通过");
-//                        smsTag = true;
+//                        toast("验证码验证通过");
+                        login();
                     }else{
                         toast("验证码不正确");
-//                        smsTag = false;
                     }
                 }
             });
-        toast("ss"+smsTag);
-        return smsTag;
+        }
     }
 
 
