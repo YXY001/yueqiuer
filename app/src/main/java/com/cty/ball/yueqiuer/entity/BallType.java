@@ -9,12 +9,12 @@ import cn.bmob.v3.BmobObject;
 public class BallType extends BmobObject{
     private Integer ballTypeID; //球类ID
     private Integer activityID; //活动ID
-    private String ballTypeNamel;//球类名称
+    private String ballTypeName;//球类名称
 
     public BallType(Integer ballTypeID, Integer activityID, String ballTypeNamel) {
         this.ballTypeID = ballTypeID;
         this.activityID = activityID;
-        this.ballTypeNamel = ballTypeNamel;
+        this.ballTypeName = ballTypeName;
     }
 
     public Integer getBallTypeID() {
@@ -34,11 +34,11 @@ public class BallType extends BmobObject{
     }
 
     public String getBallTypeNamel() {
-        return ballTypeNamel;
+        return ballTypeName;
     }
 
     public void setBallTypeNamel(String ballTypeNamel) {
-        this.ballTypeNamel = ballTypeNamel;
+        this.ballTypeName = ballTypeNamel;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class BallType extends BmobObject{
         return "BallType{" +
                 "ballTypeID=" + ballTypeID +
                 ", activityID=" + activityID +
-                ", ballTypeNamel='" + ballTypeNamel + '\'' +
+                ", ballTypeNamel='" + ballTypeName + '\'' +
                 '}';
     }
 }

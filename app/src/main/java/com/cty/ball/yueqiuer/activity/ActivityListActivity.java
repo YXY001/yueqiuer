@@ -36,7 +36,7 @@ public class ActivityListActivity extends AppCompatActivity {
     private ArrayList<Map<String, Object>> arrayList = null;
     private String ball;
     private String[] names = {"石家庄", "保定", "暗淡", "横竖"};
-
+    private Intent intent;
     private LoginOrNot loginOrNot;
     private BmobUser bmobUser;
 
@@ -59,8 +59,19 @@ public class ActivityListActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loginOrNot.loginOrNot(ActivityListActivity.this, ReleaseActivity.class);
+                if (bmobUser!=null){
+                    //已经登录，直接修改
+                    intent = new Intent(ActivityListActivity.this,ReleaseActivity.class);
+                    intent.putExtra("ballType",ball);
+                    startActivity(intent);
+                }else {
+                    //没有登录，进入到登录界面
+                    intent = new Intent(ActivityListActivity.this,LoginActivity.class);
+                    startActivity(intent);
+                }
             }
+               /* loginOrNot.loginOrNot(ActivityListActivity.this, ReleaseActivity.class);*/
+
         });
 
         activityList_listview = (ListView) findViewById(R.id.activityList_listview);
